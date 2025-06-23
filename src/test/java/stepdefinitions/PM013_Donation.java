@@ -65,6 +65,12 @@ public class PM013_Donation extends Base {
         Operations.waitUntilElementIsVisible(PG012_Donation.payButton, driver);
         Operations.click(PG012_Donation.payButton, driver);
     }
+    @When("I Can check transaction status {string}")
+    public void iCanCheckTransactionStatus(String Status) {
+        Operations.waitUntilElementIsVisible(PG012_Donation.transactionStatus, driver);
+        Operations.verifyElementIsPresent(PG012_Donation.transactionStatus, driver);
+        Operations.matchText(PG012_Donation.transactionStatus, Status, driver);
+    }
     @When("Back to the Home Page")
     public void backToTheHomePage() {
         Operations.waitUntilElementIsVisible(PG012_Donation.gotoHomeButton, driver);

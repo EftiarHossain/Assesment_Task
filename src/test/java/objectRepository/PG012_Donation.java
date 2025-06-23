@@ -22,6 +22,8 @@ public class PG012_Donation {
     public static By OTPInput = By.xpath("//span[1]//input[1]");
     public static By payButton = By.xpath("//div[@class='flex space-x-2 justify-center']//button[@class='btn-primary']");
 
+    public static By transactionStatus = By.xpath("//span[@class='text-md font-normal']");
+
 
     public static By gotoHomeButton = By.xpath("//button[@class='btn-secondary w-auto']");
     public static By addFavouriteButton = By.xpath("//*[@id=\"mat-mdc-dialog-0\"]/div/div/app-otp-dialog-bill-payment/div[2]/button[2]");
