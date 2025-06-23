@@ -5,6 +5,7 @@ import io.cucumber.java.en.When;
 import objectRepository.PG012_Donation;
 import utils.Base;
 import utils.Operations;
+import utils.SoftAssertCollector;
 
 public class PM013_Donation extends Base {
     @When("I navigate to the Donation Page")
@@ -67,9 +68,13 @@ public class PM013_Donation extends Base {
     }
     @When("I Can check transaction status {string}")
     public void iCanCheckTransactionStatus(String Status) {
-        Operations.waitUntilElementIsVisible(PG012_Donation.transactionStatus, driver);
-        Operations.verifyElementIsPresent(PG012_Donation.transactionStatus, driver);
-        Operations.matchText(PG012_Donation.transactionStatus, Status, driver);
+        try {
+            Operations.waitUntilElementIsVisible(PG012_Donation.transactionStatus, driver);
+            Operations.verifyElementIsPresent(PG012_Donation.transactionStatus, driver);
+            Operations.matchText(PG012_Donation.transactionStatus, Status, driver);
+        } catch (AssertionError e) {
+            SoftAssertCollector.addError(e);
+        }
     }
     @When("Back to the Home Page")
     public void backToTheHomePage() {

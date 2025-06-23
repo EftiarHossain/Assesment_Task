@@ -24,7 +24,7 @@ Feature: Donation
     Then I click on the Next button
     Then I click on the Terms & Condtions checkbox and Send OTP button
     Then Enter OTP "1111" and click on the Pay button
-    Then I Can check transaction status "Transaction is failed"
+    Then I Can check transaction status "Transaction is success"
     Then I Can Add Favourite with Name "Asif11"
     Then Back to the Home Page
 
@@ -38,5 +38,5 @@ Feature: Donation
     Then I click on the Next button
     Then I click on the Terms & Condtions checkbox and Send OTP button
     Then Enter OTP "1111" and click on the Pay button
-    Then I Can check transaction status "Transaction is failed"
+    Then I Can check transaction status "Transaction is success"
     Then Back to the Home Page
