@@ -4,6 +4,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import objectRepository.PG012_Donation;
 import utils.Base;
+import utils.FileHelper;
 import utils.Operations;
 import utils.SoftAssertCollector;
 
@@ -66,14 +67,16 @@ public class PM013_Donation extends Base {
         Operations.waitUntilElementIsVisible(PG012_Donation.payButton, driver);
         Operations.click(PG012_Donation.payButton, driver);
     }
-    @When("I Can check transaction status {string}")
-    public void iCanCheckTransactionStatus(String Status) {
+    @When("I Can check transaction status {string} IF Transaction is Failed then add an Screenshot" )
+    public void iCanCheckTransactionStatus(String Status) throws Exception {
         try {
             Operations.waitUntilElementIsVisible(PG012_Donation.transactionStatus, driver);
             Operations.verifyElementIsPresent(PG012_Donation.transactionStatus, driver);
             Operations.matchText(PG012_Donation.transactionStatus, Status, driver);
         } catch (AssertionError e) {
             SoftAssertCollector.addError(e);
+            String screenshotPath = FileHelper.generateScreenshotFilePath("TransactionFailed");
+            Operations.takeSnapShot(driver, screenshotPath);
         }
     }
     @When("Back to the Home Page")
