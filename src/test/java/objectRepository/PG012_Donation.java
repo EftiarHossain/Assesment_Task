@@ -25,5 +25,8 @@ public class PG012_Donation {
 
     public static By gotoHomeButton = By.xpath("//button[@class='btn-secondary w-auto']");
     public static By addFavouriteButton = By.xpath("//*[@id=\"mat-mdc-dialog-0\"]/div/div/app-otp-dialog-bill-payment/div[2]/button[2]");
+    public static By favouriteName = By.xpath("//input[@placeholder='Favourite Name']");
+    public static By saveButton = By.xpath("//*[@id=\"mat-mdc-dialog-1\"]/div/div/mat-dialog-actions/button[2]");
+
     public static By downloadReceiptButton = By.xpath("//*[@id=\"mat-mdc-dialog-0\"]/div/div/app-otp-dialog-bill-payment/div[2]/button[3]");
 }

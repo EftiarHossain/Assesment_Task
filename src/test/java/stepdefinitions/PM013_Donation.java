@@ -70,6 +70,15 @@ public class PM013_Donation extends Base {
         Operations.waitUntilElementIsVisible(PG012_Donation.gotoHomeButton, driver);
         Operations.click(PG012_Donation.gotoHomeButton, driver);
     }
+    @When("I Can Add Favourite with Name {string}")
+    public void iCanAddFavouriteWithName(String Name) {
+        Operations.waitUntilElementIsVisible(PG012_Donation.addFavouriteButton, driver);
+        Operations.click(PG012_Donation.addFavouriteButton, driver);
+        Operations.waitUntilElementIsVisible(PG012_Donation.favouriteName, driver);
+        Operations.sendText(PG012_Donation.favouriteName,Name, driver);
+        Operations.waitUntilElementIsVisible(PG012_Donation.saveButton, driver);
+        Operations.click(PG012_Donation.saveButton, driver);
+    }
     @When("I click on the Anonymous checkbox")
     public void iClickOnTheAnonymousCheckbox() {
         Operations.waitUntilElementIsVisible(PG012_Donation.anonymousCheckbox, driver);
