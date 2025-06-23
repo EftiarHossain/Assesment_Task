@@ -3,7 +3,7 @@ package objectRepository;
 import org.openqa.selenium.By;
 
 public class PG012_Donation {
-    public static By donationMenu = By.xpath("/html/body/app-root/layout/classy-layout/div/div[2]/app-bank-account/div/div/div/div[2]/div[5]/div[2]/fuse-card/div/div/div/div[4]/a/img");
+    public static By donationMenu = By.xpath("//div[contains(text(),'Donation')]");
     public static By asSunnahFoundationMenu = By.xpath("/html/body/app-root/layout/classy-layout/div/div[2]/app-bills-and-fees/div/div/form/div/div/div/ul/li");
 
     public static By anonymousCheckbox = By.xpath("//div[@class='mdc-checkbox']");
