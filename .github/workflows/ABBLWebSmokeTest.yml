@@ -79,5 +79,5 @@ jobs:
         run: |
           curl -H "Content-Type: application/json" -d '{
             "title": "Cucumber Test Run Completed",
-            "text": "The AB Retail Web Smoke test run has completed. You can download the HTML report here: [View GitHub Actions Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+            "text": "The AB Retail Web Smoke test run has completed. You can download the HTML report here : [View GitHub Actions Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
           }' ${{ secrets.TEAMS_WEBHOOK_URL }}
