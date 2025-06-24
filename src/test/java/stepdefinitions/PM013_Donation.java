@@ -7,6 +7,9 @@ import utils.Base;
 import utils.FileHelper;
 import utils.Operations;
 import utils.SoftAssertCollector;
+import io.cucumber.java.Scenario;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class PM013_Donation extends Base {
     @When("I navigate to the Donation Page")
@@ -67,7 +70,15 @@ public class PM013_Donation extends Base {
         Operations.waitUntilElementIsVisible(PG012_Donation.payButton, driver);
         Operations.click(PG012_Donation.payButton, driver);
     }
-    @When("I Can check transaction status {string} IF Transaction is Failed then add an Screenshot" )
+
+    private Scenario scenario;
+
+    @io.cucumber.java.Before
+    public void before(Scenario scenario) {
+        this.scenario = scenario;
+    }
+
+    @Then("I Can check transaction status {string} IF Transaction is Failed then add an Screenshot")
     public void iCanCheckTransactionStatus(String Status) throws Exception {
         try {
             Operations.waitUntilElementIsVisible(PG012_Donation.transactionStatus, driver);
@@ -75,10 +86,23 @@ public class PM013_Donation extends Base {
             Operations.matchText(PG012_Donation.transactionStatus, Status, driver);
         } catch (AssertionError e) {
             SoftAssertCollector.addError(e);
+
+            // Generate screenshot path
             String screenshotPath = FileHelper.generateScreenshotFilePath("TransactionFailed");
+
+            // Take screenshot
             Operations.takeSnapShot(driver, screenshotPath);
+
+            // Attach screenshot to report
+            try {
+                byte[] screenshotBytes = Files.readAllBytes(Paths.get(screenshotPath));
+                scenario.attach(screenshotBytes, "image/png", "TransactionFailed");
+            } catch (Exception ex) {
+                System.err.println("Failed to attach screenshot to report: " + ex.getMessage());
+            }
         }
     }
+
     @When("Back to the Home Page")
     public void backToTheHomePage() {
         Operations.waitUntilElementIsVisible(PG012_Donation.gotoHomeButton, driver);
