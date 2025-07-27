@@ -38,7 +38,7 @@ public class PG004_FundTransfer {
     public static By otherTransferDetailsAccountTypeSelectionAccount = By.xpath("//span[normalize-space()='ACCOUNT']");
     public static By otherTransferDetailsAccountTypeSelectionCard = By.xpath("//span[normalize-space()='CARD']");
     public static By otherTransferDetailsBankSelectionField = By.xpath("//span[normalize-space()='--Select Bank--']");
-    public static By otherTransferDetailsSelectedBank = By.xpath("//mat-option[@role='option']//span[contains(text(),'Al-Arafah Islami Bank Limited')]");
+    public static By otherTransferDetailsSelectedBank = By.xpath("//mat-option[@role='option']//span[contains(text(),'ISLAMI BANK BANGLADESH LIMITED')]");
     public static By otherTransferDetailsDistrictSelectionField = By.xpath("//span[normalize-space()='--Select District--']");
     public static By otherTransferDetailsSelectedDistrict = By.xpath("//mat-option[@role='option']//span[contains(text(),'BAGERHAT')]");
     public static By otherTransferDetailsBranchSelectionField = By.xpath("//span[normalize-space()='--Select Branch--']");

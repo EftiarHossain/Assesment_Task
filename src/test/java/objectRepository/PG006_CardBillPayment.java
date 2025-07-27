@@ -33,7 +33,7 @@ public class PG006_CardBillPayment {
     public static By ownPaymentAmountOther = By.xpath("//input[@placeholder='Enter Your Amount']");
 
     public static By selectCardTypeWithin = By.xpath("//span[normalize-space()='--Select Card Type--']");
-    public static By selectBankOther = By.xpath("//span[normalize-space()='--Select Bank-']");
+    public static By selectBankOther = By.xpath("//span[normalize-space()='--Select Bank--']");
     public static By selectedBankOther = By.xpath("//span[normalize-space()='Al-Arafah Islami Bank Limited']");
     public static By selectedCardType = By.xpath("//span[normalize-space()='World']");
     public static By selectedCardTypeLanka = By.xpath("//span[normalize-space()='VISA']");
@@ -44,7 +44,7 @@ public class PG006_CardBillPayment {
     public static By transferDetailsPaymentAmountOther = By.xpath("//input[@placeholder='Enter payment amount']");
     public static By transferDetailsPaymentAmountOwn = By.xpath("//input[@placeholder='Enter Your Amount']");
 
-    public static By paymentRemarks = By.xpath("//input[@placeholder='Remarks']");
+    public static By paymentRemarks = By.xpath("//input[@placeholder='Enter Remarks']");
 
 
     public static By paymentDetailsNextButton = By.xpath("//button[contains(text(),'Next')]");
