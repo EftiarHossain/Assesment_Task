@@ -40,16 +40,13 @@ public class FlightSearchSteps extends Base {
         assert Operations.verifyElementIsDisplayed(FlightSearchPageOR.departureDateSeptemberMonth23, driver);
         Operations.click(FlightSearchPageOR.departureDateSeptemberMonth23, driver);
         Operations.click(FlightSearchPageOR.departureDateSeptemberMonth23, driver);
-        Operations.click(FlightSearchPageOR.searchButton, driver);
-
-        Operations.waitUntilElementIsVisible(FlightSearchPageOR.FilterButton, driver);
-        Operations.waitUntilElementIsVisible(FlightSearchPageOR.usBanglaFilter, driver);
-        Operations.waitUntilElementIsVisible(FlightSearchPageOR.FilterButton, driver);
-
 
         Operations.click(FlightSearchPageOR.travelersInput, driver);
         Operations.click(FlightSearchPageOR.travelersInputaAdult, driver);
         Operations.click(FlightSearchPageOR.doneButton, driver);
+
+        Operations.click(FlightSearchPageOR.searchButton, driver);
+
     }
 
     @When("I filter flights by airline {string}")
@@ -59,6 +56,9 @@ public class FlightSearchSteps extends Base {
         } else if (airline.equalsIgnoreCase("Novo Air")) {
             Operations.click(FlightSearchPageOR.novoAirFilter, driver);
         }
+        Operations.waitUntilElementIsVisible(FlightSearchPageOR.FilterButton, driver);
+        Operations.waitUntilElementIsVisible(FlightSearchPageOR.usBanglaFilter, driver);
+        Operations.waitUntilElementIsVisible(FlightSearchPageOR.FilterButton, driver);
     }
 
     @When("I select the last flight in the list")
