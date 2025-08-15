@@ -136,7 +136,9 @@ Notes
       
       Test data can be externalized in resources/testdata (optional enhancement).
 
-      Reports are generated in target folder after each test run.
+      Reports are generated in target folder after each test run. You can also find the report on Github action run as a Zip file
+
+      ![alt text](image.png)
 
       Soft assertions are handled by SoftAssertCollector for collecting multiple verification failures in a single test.
 
