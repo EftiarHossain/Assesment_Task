@@ -1,127 +1,98 @@
-# Selenium Cucumber Maven Project Documentation
+# Assessment Task – Java Cucumber Maven Project
 
-## Overview
-
-This project is a **Selenium automation framework** using **Cucumber** with **Java** and **Maven**. It follows the **Page Object Model (POM)** for maintainability and scalability, making it easy to add new tests and extend functionality.
-
----
-
-## 📁 Project Structure
-
-```
-src/test/java
-│── objectRepository/       # Stores Object Repository classes for UI elements
-│   ├── PG005_TopUpPayment.java
-│   ├── PG006_CardBillPayment.java
-│   ├── PG007_BillPayment.java
-│   ├── PG004_FundTransfer.java
-│   ├── PG012_Donation.java
-│   ├── ...
-│
-│── resources/features/     # Stores feature files for Cucumber scenarios (Gherkin)
-│   ├── TC001_Navigation.feature
-│   ├── TC002_Login.feature
-│   ├── TC003_Dashboard_AccountAndCardSt.feature
-│   ├── TC004_MetlifeBillPayment.feature
-│   ├── ...
-│
-│── runners/                # Contains Test Runner class for Cucumber execution
-│   ├── TestRunner.java
-│
-│── stepdefinitions/        # Holds step definition files for Cucumber scenarios
-│   ├── Hooks.java
-│   ├── PM001_SplashAndLogin.java
-│   ├── PM002_Dashboard.java
-│   ├── PM003_OwnFundTransfer.java
-│   ├── ...
-│
-│── utils/                  # Utility classes for common functions
-│   ├── Base.java
-│   ├── Operations.java
-```
+## Project Overview
+This project is a Java-based automation framework using **Maven** and **Cucumber** for behavior-driven testing. The framework includes step definitions, runners, and utility classes to execute and manage automated test scenarios. It is integrated with **GitHub Actions** to allow CI/CD execution, including scheduled runs and manual workflow dispatch.
 
 ---
 
-## 🔹 Technologies Used
+## Project Structure
 
-- **Selenium WebDriver** – UI automation
-- **Cucumber** – BDD framework
-- **Java** – Programming language
-- **Maven** – Dependency management
-- **JUnit/TestNG** – Test execution
+ASSESSMENT_TASK/
+├── .github/
+│ └── workflows/
+│ └── maven.yml # GitHub Actions workflow
+├── src/
+│ └── test/
+│ └── java/
+│ ├── resources/
+│ │ └── features/ # Cucumber feature files (e.g., Flight_Search.feature)
+│ ├── runners/
+│ │ └── TestRunner.java # Cucumber test runner
+│ ├── stepdefinitions/
+│ │ └── Hooks.java # Before/After hooks
+│ └── utils/
+│ ├── Base.java
+│ ├── FileHelper.java
+│ ├── Operations.java
+│ └── SoftAssertCollector.java
+├── target/ # Compiled files and reports
+├── pom.xml # Maven configuration
+└── README.md
 
----
-
-## 🚀 How to Run the Tests
-
-1. **Clone the Repository**
-   ```sh
-   git clone https://github.com/EftiarHossain/Cucumber_maven.git
-   ```
-
-2. **Install Dependencies**
-   ```sh
-   mvn clean install
-   ```
-
-3. **Run Tests Using Maven**
-   ```sh
-   mvn test
-   ```
-
-4. **Run Specific Feature File**
-   ```sh
-   mvn test -Dcucumber.options="src/test/resources/features/TC002_Login.feature"
-   ```
+markdown
+Copy
+Edit
 
 ---
 
-## 🛠 Key Components
+## Features
 
-- **Object Repository (`objectRepository/`)**
-  - Java classes storing locators for UI elements, e.g. `PG004_FundTransfer.java`, `PG012_Donation.java`.
-- **Feature Files (`resources/features/`)**
-  - Contains scenarios written in Gherkin syntax (`Given-When-Then`).
-- **Step Definitions (`stepdefinitions/`)**
-  - Java classes implementing the steps described in feature files.
-- **Runner (`runners/`)**
-  - Configures and executes Cucumber tests.
-- **Utilities (`utils/`)**
-  - Helper classes for setup, teardown, and common actions (e.g. `Base.java`).
+- **Cucumber Feature Files:** Located in `src/test/java/resources/features/`
+- **Step Definitions:** Located in `src/test/java/stepdefinitions/`
+- **Runners:** Cucumber runners located in `src/test/java/runners/`
+- **Utilities:** Helper classes for reusable operations and assertions
+- **CI/CD Integration:** GitHub Actions workflow `maven.yml` supports manual runs
 
 ---
 
-## 📊 Reports and Logs
+## GitHub Actions Workflow (`maven.yml`)
 
-- After test execution, reports are generated under:
-  ```
-  target/cucumber-reports/
-  ```
+The workflow allows:
 
----
+1. **Manual Trigger:** Run tests on-demand via **workflow dispatch**
+2. **Push/PR Triggers:** Executes when changes are pushed or a PR is opened to the `main` branch
 
-## ✨ Best Practices & Tips
+### Steps in Workflow
 
-- **Page Object Model**: Each page/screen has a dedicated class under `objectRepository`.
-- **Scenario Organization**: Feature files should be concise, well-named, and grouped by module or functionality.
-- **Reusable Steps**: Step definitions should be built for reuse across scenarios.
-- **Utility Classes**: Place all reusable logic (like browser setup or common actions) in the `utils` folder.
-
----
-
-## 💡 Example: Adding a New Test
-
-1. **Create a Feature File** in `resources/features/` describing the scenario.
-2. **Add Page Objects** for new UI elements in `objectRepository/`.
-3. **Implement Step Definitions** in `stepdefinitions/` for each step in your feature file.
-4. **Run Tests** with Maven to verify.
+1. Checkout the repository code
+2. Setup JDK 1.8
+3. Cache Maven dependencies
+4. Build the project using Maven (`mvn package -DskipTests`)
+5. Create a downloads directory for test artifacts
+6. Execute Cucumber tests with JUnit
+7. Upload HTML test reports and any downloaded files as artifacts
 
 ---
 
-## 🎯 Contributing
+## Running Tests via GitHub Workflow Dispatch
 
-Feel free to fork the repository, open issues, or submit pull requests to enhance automation coverage or improve framework capabilities.
+1. Go to your GitHub repository
+2. Navigate to **Actions** → select the workflow **Java CI**
+3. Click **Run workflow**
+4. Select the branch (`main`) and any optional inputs (if configured)
+5. Click **Run workflow**  
+   The workflow will build the project, execute tests, and upload reports.
 
 ---
 
-Happy Testing! 🚀
+## Running Tests Locally
+
+1. Ensure **Java 1.8** and **Maven** are installed
+2. Clone the repository:
+   git clone <repo-url>
+   cd ASSESSMENT_TASK
+
+
+Build the project:
+
+mvn clean package -DskipTests
+Run tests using the TestRunner:
+
+mvn test -Dtest=runners.TestRunner
+Test reports will be generated under target/cucumber-html-report.html
+
+
+Notes
+Downloaded files during test execution are saved in $GITHUB_WORKSPACE/downloads
+Test execution failures in CI will not fail the workflow (continue-on-error: true)
+Artifacts are available for download from the Actions run
