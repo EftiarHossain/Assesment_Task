@@ -27,6 +27,10 @@ public class Operations {
         return el;
     }
 
+    public static List<WebElement> findElements(By path, WebDriver driver) {
+        return driver.findElements(path);
+    }
+
     public static int createRandomIntBetween(int start, int end) {
         return start + (int) Math.round(Math.random() * (end - start));
     }
