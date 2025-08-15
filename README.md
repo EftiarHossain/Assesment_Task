@@ -96,3 +96,47 @@ Notes
 Downloaded files during test execution are saved in $GITHUB_WORKSPACE/downloads
 Test execution failures in CI will not fail the workflow (continue-on-error: true)
 Artifacts are available for download from the Actions run
+
+
+-> Design Choices and Reasoning
+1. Cucumber for BDD
+
+Reasoning: Allows collaboration between QA, developers, and non-technical stakeholders. Features written in Gherkin are easy to read and understand.
+
+Benefit: Promotes clear communication and ensures tests cover business requirements.
+
+2. Page Object Model (POM)
+
+Reasoning: Separates page structure from test logic. Each page has its own class containing locators and actions.
+
+Benefit: Improves code maintainability and reusability. Changes in the UI require updates only in the page class, not in all tests.
+
+3. Reusable Utilities
+
+Reasoning: WebDriver setup, waits, and other repetitive functions are centralized.
+
+Benefit: Reduces code duplication and simplifies framework maintenance.
+
+4. Feature Files
+
+Reasoning: Separate feature files per module or functionality.
+
+Benefit: Makes it easier to organize tests, improves readability, and supports selective execution.
+
+5. Maven Project Structure
+
+Reasoning: Standard Maven structure for Java projects.
+
+Benefit: Integrates easily with CI/CD tools and simplifies dependency management.
+
+6. Test Data Management
+
+Reasoning: Externalizing test data (JSON/CSV) avoids hardcoding values in scripts.
+
+Benefit: Easier to maintain, supports multiple test scenarios, and enables data-driven testing.
+
+7. CI/CD Integration
+
+Reasoning: Automation runs triggered by GitHub Actions or scheduled workflows.
+
+Benefit: Ensures continuous feedback, detects issues early, and supports regression testing automatically.
