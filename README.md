@@ -1,142 +1,142 @@
-# Assessment Task – Java Cucumber Maven Project
+Overview
 
-## Project Overview
-This project is a Java-based automation framework using **Maven** and **Cucumber** for behavior-driven testing. The framework includes step definitions, runners, and utility classes to execute and manage automated test scenarios. It is integrated with **GitHub Actions** to allow CI/CD execution, including scheduled runs and manual workflow dispatch.
-
----
-
-## Project Structure
+This project is an automation framework using Cucumber for behavior-driven testing and Selenium WebDriver for browser automation. It is designed to be scalable, maintainable, and readable, supporting cross-functional collaboration and automated regression testing.
 
 ASSESSMENT_TASK/
-├── .github/
-│ └── workflows/
-│ └── maven.yml # GitHub Actions workflow
+├── .github/workflows/
+│   └── maven.yml         # GitHub Actions workflow
 ├── src/
-│ └── test/
-│ └── java/
-│ ├── resources/
-│ │ └── features/ # Cucumber feature files (e.g., Flight_Search.feature)
-│ ├── runners/
-│ │ └── TestRunner.java # Cucumber test runner
-│ ├── stepdefinitions/
-│ │ └── Hooks.java # Before/After hooks
-│ └── utils/
-│ ├── Base.java
-│ ├── FileHelper.java
-│ ├── Operations.java
-│ └── SoftAssertCollector.java
-├── target/ # Compiled files and reports
-├── pom.xml # Maven configuration
+│   └── test/
+│       ├── java/
+│       │   ├── objectRepository/
+│       │   │   └── FlightSearchPageOR.java   # Page Object Model classes
+│       │   ├── runners/
+│       │   │   └── TestRunner.java           # Cucumber test runner
+│       │   ├── stepdefinitions/
+│       │   │   ├── FlightSearchSteps.java    # Step definitions
+│       │   │   └── Hooks.java                # Before/After hooks
+│       │   └── utils/
+│       │       ├── Base.java                 # Base WebDriver setup
+│       │       ├── FileHelper.java           # File handling utilities
+│       │       ├── Operations.java           # Common operations (click, type, etc.)
+│       │       └── SoftAssertCollector.java  # Soft assertion handler
+│       └── resources/
+│           └── features/
+│               └── Flight_Search.feature     # Cucumber feature files
+├── target/                                   # Compiled files and reports
+├── pom.xml                                   # Maven configuration
 └── README.md
 
-markdown
-Copy
-Edit
 
----
+Features
 
-## Features
+      Cucumber Feature Files: Located in src/test/resources/features/
 
-- **Cucumber Feature Files:** Located in `src/test/java/resources/features/`
-- **Step Definitions:** Located in `src/test/java/stepdefinitions/`
-- **Runners:** Cucumber runners located in `src/test/java/runners/`
-- **Utilities:** Helper classes for reusable operations and assertions
-- **CI/CD Integration:** GitHub Actions workflow `maven.yml` supports manual runs
+      Step Definitions: Located in src/test/java/stepdefinitions/
 
----
+      Runners: Located in src/test/java/runners/
 
-## GitHub Actions Workflow (`maven.yml`)
+      Utilities: Helper classes for reusable operations and assertions
 
-The workflow allows:
+      CI/CD Integration: GitHub Actions workflow (maven.yml) supports manual runs and scheduled execution
 
-1. **Manual Trigger:** Run tests on-demand via **workflow dispatch**
-2. **Push/PR Triggers:** Executes when changes are pushed or a PR is opened to the `main` branch
+How to Run Tests
 
-### Steps in Workflow
+1. Prerequisites
 
-1. Checkout the repository code
-2. Setup JDK 1.8
-3. Cache Maven dependencies
-4. Build the project using Maven (`mvn package -DskipTests`)
-5. Create a downloads directory for test artifacts
-6. Execute Cucumber tests with JUnit
-7. Upload HTML test reports and any downloaded files as artifacts
+      JDK 11+
 
----
+      Maven 3.6+
 
-## Running Tests via GitHub Workflow Dispatch
+      Chrome or Firefox browser
 
-1. Go to your GitHub repository
-2. Navigate to **Actions** → select the workflow **Java CI**
-3. Click **Run workflow**
-4. Select the branch (`main`) and any optional inputs (if configured)
-5. Click **Run workflow**  
-   The workflow will build the project, execute tests, and upload reports.
+      IDE (e.g., IntelliJ IDEA)
 
----
+2. Run All Tests
+      
+      mvn clean test
 
-## Running Tests Locally
+3. Run Specific Feature File
 
-1. Ensure **Java 1.8** and **Maven** are installed
-2. Clone the repository:
-   git clone <repo-url>
-   cd ASSESSMENT_TASK
+      mvn test -Dcucumber.options="src/test/resources/features/Flight_Search.feature"
 
 
-Build the project:
+4. Run Tests via GitHub Actions
 
-mvn clean package -DskipTests
-Run tests using the TestRunner:
+Trigger workflow manually from Actions → Workflows → Maven.yml → Run workflow.
 
-mvn test -Dtest=runners.TestRunner
-Test reports will be generated under target/cucumber-html-report.html
+The workflow executes tests and generates reports automatically.
 
+Design Choices & Reasoning
+1. Cucumber (BDD)
 
-Notes
-Downloaded files during test execution are saved in $GITHUB_WORKSPACE/downloads
-Test execution failures in CI will not fail the workflow (continue-on-error: true)
-Artifacts are available for download from the Actions run
+   Reasoning: Enables writing tests in plain English using Gherkin syntax. Facilitates collaboration between QA, developers, and non-technical stakeholders.
 
-
--> Design Choices and Reasoning
-1. Cucumber for BDD
-
-Reasoning: Allows collaboration between QA, developers, and non-technical stakeholders. Features written in Gherkin are easy to read and understand.
-
-Benefit: Promotes clear communication and ensures tests cover business requirements.
+   Benefit: Ensures test cases align with business requirements.
 
 2. Page Object Model (POM)
 
-Reasoning: Separates page structure from test logic. Each page has its own class containing locators and actions.
+   Reasoning: Separates UI locators and page actions from test logic.
 
-Benefit: Improves code maintainability and reusability. Changes in the UI require updates only in the page class, not in all tests.
+   Benefit: Improves maintainability and reduces code duplication. Changes in the UI require updates only in page classes.
 
-3. Reusable Utilities
+3. Step Definitions
 
-Reasoning: WebDriver setup, waits, and other repetitive functions are centralized.
+   Reasoning: Keeps reusable test logic separate from feature files.
 
-Benefit: Reduces code duplication and simplifies framework maintenance.
+   Benefit: Supports modularity and reduces redundancy across scenarios.
 
-4. Feature Files
+4. Utility Classes
 
-Reasoning: Separate feature files per module or functionality.
+   Reasoning: Common operations (click, input, waits) and assertion logic are centralized.
 
-Benefit: Makes it easier to organize tests, improves readability, and supports selective execution.
+   Benefit: Simplifies test scripts, enhances reusability, and ensures consistent behavior across tests.
 
-5. Maven Project Structure
+5. Hooks
 
-Reasoning: Standard Maven structure for Java projects.
+   Reasoning: Handles setup (Before) and teardown (After) tasks automatically.
 
-Benefit: Integrates easily with CI/CD tools and simplifies dependency management.
+   Benefit: Guarantees proper test environment initialization and cleanup, improving test reliability.
 
-6. Test Data Management
+6. Maven Project Structure
 
-Reasoning: Externalizing test data (JSON/CSV) avoids hardcoding values in scripts.
+   Reasoning: Standardized Java project layout.
 
-Benefit: Easier to maintain, supports multiple test scenarios, and enables data-driven testing.
+   Benefit: Simplifies dependency management, CI/CD integration, and IDE support.
 
 7. CI/CD Integration
 
-Reasoning: Automation runs triggered by GitHub Actions or scheduled workflows.
+   Reasoning: GitHub Actions workflow triggers test execution automatically.
 
-Benefit: Ensures continuous feedback, detects issues early, and supports regression testing automatically.
+   Benefit: Provides continuous feedback, detects regression issues early, and maintains code quality.
+
+
+This project is configured with GitHub Actions to run automated tests. You can trigger the workflow manually using the workflow dispatch feature.
+
+Steps to Trigger:
+
+      Go to the GitHub repository.
+
+      Click on the Actions tab.
+
+      Select the workflow you want to run (e.g., Java CI).
+
+      Click the Run workflow button on the right.
+
+      Select the branch to run the workflow on (default is usually main).
+
+      Click Run workflow to start the automated tests.
+
+      The workflow will execute on the selected branch and run all configured test scenarios using the Cucumber-Selenium framework.
+
+
+Notes
+
+      Due to UI elements issue the code is failling because the UI's has not static element used, xpath are changing randomly
+      
+      Test data can be externalized in resources/testdata (optional enhancement).
+
+      Reports are generated in target folder after each test run.
+
+      Soft assertions are handled by SoftAssertCollector for collecting multiple verification failures in a single test.
+
