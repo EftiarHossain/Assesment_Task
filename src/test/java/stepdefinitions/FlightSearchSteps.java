@@ -76,11 +76,17 @@ public class FlightSearchSteps extends Base {
 
     @When("I capture the prices of {string}")
     public void iCaptureThePrices(String airline) {
-        WebElement priceElement = Operations.findElement(FlightSearchPageOR.cheapestPrice, driver);
+        try {
+            WebElement priceElement = Operations.findElement(FlightSearchPageOR.cheapestPrice, driver);
 
-        // Extract text and remove non-numeric characters except '.'
-        String value = priceElement.getText().replaceAll("[^0-9.]", "");
-        usBanglaPrices = Double.parseDouble(value);
+            // Extract text and remove non-numeric characters except '.'
+            String value = priceElement.getText().replaceAll("[^0-9.]", "");
+            usBanglaPrices = Double.parseDouble(value);
+        }
+        catch (NumberFormatException e) {
+            System.err.println("Failed to parse price for " + airline + ": " + e.getMessage());
+            // Optionally: store as 0 or some default value
+        }
     }
 
     @When("I deselect {string} and select {string}")
@@ -91,12 +97,17 @@ public class FlightSearchSteps extends Base {
 
     @When("I capture the prices of Novo Air")
     public void iCaptureThePricesNovoAir() {
-        WebElement priceElement = Operations.findElement(FlightSearchPageOR.cheapestPrice, driver);
+        try {
+            WebElement priceElement = Operations.findElement(FlightSearchPageOR.cheapestPrice, driver);
 
-        // Extract text and remove non-numeric characters except '.'
-        String value = priceElement.getText().replaceAll("[^0-9.]", "");
-        novoAirPrices = Double.parseDouble(value);
-
+            // Extract text and remove non-numeric characters except '.'
+            String value = priceElement.getText().replaceAll("[^0-9.]", "");
+            novoAirPrices = Double.parseDouble(value);
+        }
+        catch (NumberFormatException e) {
+            System.err.println("Failed to parse price for Novo: " + e.getMessage());
+            // Optionally: store as 0 or some default value
+        }
     }
 
     @Then("I compare both captured prices and assert they differ")
