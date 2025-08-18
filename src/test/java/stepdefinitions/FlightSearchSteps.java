@@ -24,7 +24,7 @@ public class FlightSearchSteps extends Base {
     }
 
     @When("I search flights from {string} to {string} on {string} for {string} travelers in {string} class")
-    public void iSearchFlights(String from, String to, String date, String travelers, String travelClass) {
+    public void iSearchFlights(String from, String to, String date, String travelers, String travelClass) throws InterruptedException {
         Operations.click(FlightSearchPageOR.fromInput, driver);
         Operations.click(FlightSearchPageOR.fromInputSelect, driver);
 
@@ -35,6 +35,7 @@ public class FlightSearchSteps extends Base {
         assert Operations.verifyElementIsDisplayed(FlightSearchPageOR.departureDateSeptemberMonth, driver);
         assert Operations.verifyElementIsDisplayed(FlightSearchPageOR.departureDateSeptemberMonth23, driver);
         Operations.click(FlightSearchPageOR.departureDateSeptemberMonth23, driver);
+        Thread.sleep(5000);
         Operations.click(FlightSearchPageOR.departureDateSeptemberMonth23, driver);
 
         Operations.click(FlightSearchPageOR.travelersInput, driver);
