@@ -22,13 +22,31 @@ import static org.junit.Assert.assertThat;
 
 public class Operations {
 
-    static WebElement findElement(By path, WebDriver driver){
+    public static WebElement findElement(By path, WebDriver driver){
         WebElement el = driver.findElement(path);
         return el;
     }
 
-    public static List<WebElement> findElements(By path, WebDriver driver) {
-        return driver.findElements(path);
+
+    public static void scrollToAndClickLastElement(By locator, WebDriver driver) {
+        List<WebElement> elements = driver.findElements(locator);
+
+        // Check if list is not empty
+        if (!elements.isEmpty()) {
+            // Get the last element
+            WebElement lastElement = elements.get(elements.size() - 1);
+
+            // Scroll into view
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", lastElement);
+
+            // Optional: small pause to let scrolling finish
+            try { Thread.sleep(500); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+
+            // Click the element
+            lastElement.click();
+        } else {
+            System.out.println("No elements found with the given XPath");
+        }
     }
 
     public static int createRandomIntBetween(int start, int end) {
@@ -38,6 +56,11 @@ public class Operations {
     public static void click(By locator, WebDriver driver) {
         WebElement el = findElement(locator, driver);
         el.click();
+    }
+
+    public static void jsClick(By locator, WebDriver driver) {
+        WebElement button = driver.findElement(locator);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", button);
     }
     
     public static void clear(By locator, WebDriver driver) {
@@ -280,6 +303,30 @@ public class Operations {
         wait.until(pageLoadCondition);
     }
 
+    public static void closeNewTabAndSwitchBack(WebDriver driver) {
+        // Store the current window handle
+        String originalWindow = driver.getWindowHandle();
+
+        // Get all open window handles
+        Set<String> windowHandles = driver.getWindowHandles();
+
+        // If more than one window is open
+        if (windowHandles.size() > 1) {
+            for (String handle : windowHandles) {
+                if (!handle.equals(originalWindow)) {
+                    // Switch to the new tab
+                    driver.switchTo().window(handle);
+                    // Close it
+                    driver.close();
+                    break; // Exit after closing the new tab
+                }
+            }
+            // Switch back to original tab
+            driver.switchTo().window(originalWindow);
+        } else {
+            System.out.println("No new tab detected to close.");
+        }
+    }
 
 
 }

@@ -8,13 +8,10 @@ import org.openqa.selenium.WebElement;
 import utils.Base;
 import utils.Operations;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class FlightSearchSteps extends Base {
 
-    private List<Double> usBanglaPrices = new ArrayList<>();
-    private List<Double> novoAirPrices = new ArrayList<>();
+    private double usBanglaPrices;
+    private double novoAirPrices;
 
     @Given("I open the browser for flight search")
     public void iOpenTheBrowserForFlightSearch() {
@@ -35,7 +32,6 @@ public class FlightSearchSteps extends Base {
         Operations.click(FlightSearchPageOR.toInputSelect, driver);
 
         Operations.click(FlightSearchPageOR.departureDate, driver);
-        Operations.click(FlightSearchPageOR.departureDateRightArrow, driver);
         assert Operations.verifyElementIsDisplayed(FlightSearchPageOR.departureDateSeptemberMonth, driver);
         assert Operations.verifyElementIsDisplayed(FlightSearchPageOR.departureDateSeptemberMonth23, driver);
         Operations.click(FlightSearchPageOR.departureDateSeptemberMonth23, driver);
@@ -43,7 +39,6 @@ public class FlightSearchSteps extends Base {
 
         Operations.click(FlightSearchPageOR.travelersInput, driver);
         Operations.click(FlightSearchPageOR.travelersInputaAdult, driver);
-        Operations.click(FlightSearchPageOR.doneButton, driver);
 
         Operations.click(FlightSearchPageOR.searchButton, driver);
 
@@ -51,58 +46,60 @@ public class FlightSearchSteps extends Base {
 
     @When("I filter flights by airline {string}")
     public void iFilterFlightsByAirline(String airline) {
-        if (airline.equalsIgnoreCase("US-Bangla Airlines")) {
-            Operations.click(FlightSearchPageOR.usBanglaFilter, driver);
-        } else if (airline.equalsIgnoreCase("Novo Air")) {
-            Operations.click(FlightSearchPageOR.novoAirFilter, driver);
-        }
-        Operations.waitUntilElementIsVisible(FlightSearchPageOR.FilterButton, driver);
-        Operations.waitUntilElementIsVisible(FlightSearchPageOR.usBanglaFilter, driver);
-        Operations.waitUntilElementIsVisible(FlightSearchPageOR.FilterButton, driver);
+        Operations.scrollIntoElement(FlightSearchPageOR.usBanglaFilter, driver);
+        Operations.click(FlightSearchPageOR.usBanglaFilter, driver);
     }
 
     @When("I select the last flight in the list")
-    public void iSelectTheLastFlightInTheList() {
-        Operations.scrollIntoElement(FlightSearchPageOR.lastFlight, driver);
-        Operations.click(FlightSearchPageOR.lastFlight, driver);
+    public void iSelectTheLastFlightInTheList() throws InterruptedException {
+//        Operations.scrollIntoElement(FlightSearchPageOR.endOfPage, driver);
+//        Operations.waitForPageToLoad(driver);
+//        Operations.scrollIntoElement(FlightSearchPageOR.viewDetails, driver);
+//
+//        Operations.click(FlightSearchPageOR.viewDetails, driver);
+
+        //Unable to click on select because of an animation
+//        Operations.waitUntilElementIsClickable(FlightSearchPageOR.select, driver);
+//        Thread.sleep(5000);
+//
+//        Operations.jsClick(FlightSearchPageOR.select, driver);
+
     }
 
-    @Then("I should see the Sign In page modal")
+    @Then("I should see the Sign In page modal and close the Sign In modal")
     public void iShouldSeeTheSignInPageModal() {
-        Operations.verifyElementIsPresent(FlightSearchPageOR.signInModal, driver);
-    }
-
-    @When("I close the Sign In modal")
-    public void iCloseTheSignInModal() {
-        Operations.click(FlightSearchPageOR.closeSignIn, driver);
+        if (Operations.verifyElementIsPresent(FlightSearchPageOR.signInModal, driver)) {
+            Operations.closeNewTabAndSwitchBack(driver);
+        }
     }
 
     @When("I capture the prices of {string}")
     public void iCaptureThePrices(String airline) {
-        List<WebElement> priceElements = Operations.findElements(FlightSearchPageOR.flightPrices, driver);
-        for (WebElement element : priceElements) {
-            String value = element.getText().replaceAll("[^0-9.]", "");
-            double amount = Double.parseDouble(value);
-            if (airline.equalsIgnoreCase("US-Bangla Airlines")) {
-                usBanglaPrices.add(amount);
-            } else if (airline.equalsIgnoreCase("Novo Air")) {
-                novoAirPrices.add(amount);
-            }
-        }
+        WebElement priceElement = Operations.findElement(FlightSearchPageOR.cheapestPrice, driver);
+
+        // Extract text and remove non-numeric characters except '.'
+        String value = priceElement.getText().replaceAll("[^0-9.]", "");
+        usBanglaPrices = Double.parseDouble(value);
     }
 
     @When("I deselect {string} and select {string}")
     public void iDeselectAndSelectAirlines(String airline1, String airline2) {
-        if (airline1.equalsIgnoreCase("US-Bangla Airlines")) {
             Operations.click(FlightSearchPageOR.usBanglaFilter, driver);
-        }
-        if (airline2.equalsIgnoreCase("Novo Air")) {
             Operations.click(FlightSearchPageOR.novoAirFilter, driver);
-        }
+    }
+
+    @When("I capture the prices of Novo Air")
+    public void iCaptureThePricesNovoAir() {
+        WebElement priceElement = Operations.findElement(FlightSearchPageOR.cheapestPrice, driver);
+
+        // Extract text and remove non-numeric characters except '.'
+        String value = priceElement.getText().replaceAll("[^0-9.]", "");
+        novoAirPrices = Double.parseDouble(value);
+
     }
 
     @Then("I compare both captured prices and assert they differ")
     public void iCompareBothCapturedPricesAndAssertTheyDiffer() {
-        assert !usBanglaPrices.equals(novoAirPrices) : "Prices are unexpectedly identical!";
+        assert (usBanglaPrices==novoAirPrices) : "Prices are unexpectedly identical!";
     }
 }
